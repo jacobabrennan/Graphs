@@ -31,7 +31,7 @@ class Graph:
         vertex_end.add(source_id)
 
     def traverse_breath_first(self, start_id):
-        """"""
+        """Prints a path of vertices visited, starting at a given vertex."""
         path = []
         # Define the open and closed vertices trackers
         open_vertices = Queue()
@@ -50,5 +50,28 @@ class Graph:
             current_vertex = self.vertices[current_id]
             for linked_id in current_vertex:
                 open_vertices.put(linked_id)
+        # Print path
+        print(F'Path: {path}')
+
+    def traverse_depth_first_stack(self, start_id):
+        """Prints a path of vertices visited, starting at a given vertex."""
+        path = []
+        # Define the open and closed vertices trackers
+        open_vertices = []
+        closed_vertices = set()
+        # Iterate over each vertex
+        open_vertices.append(start_id)
+        while len(open_vertices):
+            # Skip nodes already visited
+            current_id = open_vertices.pop()
+            if current_id in closed_vertices:
+                continue
+            # Add each vertex to the path
+            path.append(current_id)
+            closed_vertices.add(current_id)
+            # Stack linked vertices
+            current_vertex = self.vertices[current_id]
+            for linked_id in current_vertex:
+                open_vertices.append(linked_id)
         # Print path
         print(F'Path: {path}')
