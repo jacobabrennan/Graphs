@@ -2,6 +2,9 @@
 
 """Simple graph implementation"""
 
+# - Dependencies ---------------------------------
+from queue import Queue
+
 
 class Graph:
     """
@@ -26,3 +29,26 @@ class Graph:
         vertex_source.add(end_id)
         vertex_end = self.vertices[end_id]
         vertex_end.add(source_id)
+
+    def traverse_breath_first(self, start_id):
+        """"""
+        path = []
+        # Define the open and closed vertices trackers
+        open_vertices = Queue()
+        closed_vertices = set()
+        # Iterate over each vertex
+        open_vertices.put(start_id)
+        while not open_vertices.empty():
+            # Skip nodes already visited
+            current_id = open_vertices.get()
+            if current_id in closed_vertices:
+                continue
+            # Add each vertex to the path
+            path.append(current_id)
+            closed_vertices.add(current_id)
+            # Queue-up linked vertices
+            current_vertex = self.vertices[current_id]
+            for linked_id in current_vertex:
+                open_vertices.put(linked_id)
+        # Print path
+        print(F'Path: {path}')
