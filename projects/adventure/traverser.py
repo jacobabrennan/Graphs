@@ -47,11 +47,11 @@ class Traverser:
         self.final_path = []
         self.path = []
         self.bread_crumbs = []
-    
-    def traverse(self):
-        """Calculates a path that traverses the entire grid."""
         self.x = self.player.currentRoom.x
         self.y = self.player.currentRoom.y
+
+    def traverse(self):
+        """Calculates a path that traverses the entire grid."""
         while(True):  # Loop because Python throws an error with recursion
             # Get exits and explored status of current room
             current_room_info = self.get_room_info(self.x, self.y)
@@ -67,6 +67,7 @@ class Traverser:
                 if self.get_direction(direction) & EXPLORED:
                     continue
                 next_direction = direction
+                break
             # Explore, if possible
             if next_direction:
                 crumb = (self.x, self.y)
@@ -77,8 +78,6 @@ class Traverser:
             elif len(self.bread_crumbs):
                 crumb = self.bread_crumbs.pop()
                 crumb_direction = self.direction_toward(crumb[0], crumb[1])
-                if not crumb_direction:
-                    raise Exception(F"no direction: ({self.x}, {self.y}) to ({crumb[0]}, {crumb[1]})")
                 self.move(crumb_direction)
                 continue
             # Stop once neither backtracking nor exploration are possible
